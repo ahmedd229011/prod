@@ -23,6 +23,8 @@ jobs:
       run: npm run build
 
     - name: Copy build output to Nginx folder
+      shell: powershell
       run: |
-        mkdir -p "C:/nginx/html"
-        cp -r dist/* "C:/nginx/html"
+        New-Item -ItemType Directory -Path "C:\nginx\html" -Force
+        Remove-Item -Recurse -Force "C:\nginx\html\*" -ErrorAction SilentlyContinue
+        Copy-Item -Path "dist\*" -Destination "C:\nginx\html" -Recurse
